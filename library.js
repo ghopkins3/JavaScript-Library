@@ -88,8 +88,7 @@ addBookButton.addEventListener("click", (event) => {
     if((title !== "" && author !== "" && pagesRead !== "" && totalPages !== "") 
         && (parseFloat(pagesRead) <= parseFloat(totalPages))) {
 
-        let book = new Book(title, author, pagesRead, totalPages, readStatus);
-        addBookToLibrary(book);
+        addBookToLibrary(title, author, totalPages, pagesRead, readStatus);
         dialog.close();
     } else if(parseFloat(pagesRead) > parseFloat(totalPages)) {
         alert("pages read cannot be more than total pages");
@@ -113,11 +112,7 @@ editBookButton.addEventListener("click", (event) => {
 
     if((title !== "" && author !== "" && pagesRead !== "" && totalPages !== "") 
         && (parseFloat(pagesRead) <= parseFloat(totalPages))) {
-        myLibrary[bookToEdit].title = title;
-        myLibrary[bookToEdit].author = author;
-        myLibrary[bookToEdit].totalPages = totalPages;
-        myLibrary[bookToEdit].pagesRead = pagesRead;
-        myLibrary[bookToEdit].hasRead = readStatus
+        editBook(title, author, totalPages, pagesRead, readStatus);
         dialog2.close();
     } else if(parseFloat(pagesRead) > parseFloat(totalPages)) {
         alert("pages read cannot be more than total pages");
@@ -227,7 +222,7 @@ editHasReadCheck.addEventListener("change", (event) => {
 });
 
 class Book {
-    constructor(title, author, pagesRead, totalPages, hasRead) {
+    constructor(title, author, totalPages, pagesRead, hasRead) {
         this.id = `${bookIDCounter++}`;
         this.title = title;
         this.author = author;
@@ -237,9 +232,9 @@ class Book {
     }
 }
 
-function addBookToLibrary(Book) {
-    myLibrary.push(Book);
-
+function addBookToLibrary(title, author, totalPages, pagesRead, readStatus) {
+    let book = new Book(title, author, totalPages, pagesRead, readStatus);
+    myLibrary.push(book);
 }
 
 function removeBookFromLibrary(event) {
@@ -250,6 +245,14 @@ function removeBookFromLibrary(event) {
     if(myLibrary.length === 0) {
         bookIDCounter = 0;
     }
+}
+
+function editBook(title, author, totalPages, pagesRead, readStatus) {
+    myLibrary[bookToEdit].title = title;
+    myLibrary[bookToEdit].author = author;
+    myLibrary[bookToEdit].totalPages = totalPages;
+    myLibrary[bookToEdit].pagesRead = pagesRead;
+    myLibrary[bookToEdit].hasRead = readStatus
 }
 
 function displayBooks() {

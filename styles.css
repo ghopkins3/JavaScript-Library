@@ -7,7 +7,8 @@
 #header {
     display: flex;
     flex-direction: row;
-    background-color: lightblue;
+    background-color: #202225;
+    color: white;
     height: 6rem;
     max-height: 6rem;
     min-height: 6rem;
@@ -22,7 +23,7 @@
 
 #heading {
     font-size: 2.5em;
-    padding-top: 1.5rem;
+    padding-top: 0.5rem;
 }
 
 #subheading {
@@ -31,11 +32,8 @@
 }
 
 body {
-    background: rgb(120,120,133);
-    background: -moz-linear-gradient(90deg, rgba(120,120,133,1) 0%, rgba(31,29,29,1) 77%);
-    background: -webkit-linear-gradient(90deg, rgba(120,120,133,1) 0%, rgba(31,29,29,1) 77%);
-    background: linear-gradient(90deg, rgba(120,120,133,1) 0%, rgba(31,29,29,1) 77%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#787885",endColorstr="#1f1d1d",GradientType=1); 
+    font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: #292b2f;
 }
 
 .books {
@@ -55,7 +53,7 @@ body {
 .new-book {
     display: flex;
     flex-direction: column;
-    background-color: #280137;
+    background-color: #40444b;
     text-align: center;
     transition: 0.25s ease-out;
     border-radius: 1rem;
@@ -65,7 +63,9 @@ body {
 }
 
 .new-book-header {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    color: white;
 }
 
 .plus > img {
@@ -225,7 +225,7 @@ dialog {
 .dialog-header {
     display: flex;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     gap: 2rem;
 }
 
