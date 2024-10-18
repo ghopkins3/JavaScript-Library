@@ -1,6 +1,5 @@
 
 // TODO ADD FAVORITES
-
 const dialogOpen = document.querySelector(".new-book");
 const dialog = document.querySelector(".add-book-dialog");
 const dialog2 = document.querySelector(".edit-book-dialog");
@@ -21,15 +20,14 @@ const editPagesReadField = document.getElementById("edit-pages-read-field");
 const editTotalPagesField = document.getElementById("edit-total-pages-field");
 const editHasReadCheck = document.getElementById("edit-checkbox");
 let bookToEdit;
-const myLibrary = [];
+let bookIDCounter = 0;
+let myLibrary = [];
 
 document.addEventListener("click", (event) => {
     if(event.target.id === "delete") {
         removeBookFromLibrary(event);
     }
-});
 
-document.addEventListener("click", (event) => {
     if(event.target.id === "edit") {
         bookToEdit = event.target.closest(".book").id;
         dialog2.showModal();
@@ -42,6 +40,16 @@ document.addEventListener("click", (event) => {
         editTotalPagesField.value = pages[1];
         editPagesReadField.value = pages[0];
         editHasReadCheck.checked = event.target.closest(".book").querySelector(".read-status").checked;
+    }
+
+    if(event.target.className === "read-status") {
+        if(event.target.checked) {
+            bookToEdit = event.target.closest(".book").id;
+            let pages = event.target.closest(".book").querySelector(".book-pages").textContent.split("/");
+            event.target.closest(".book").querySelector(".book-pages").textContent = pages[1] + "/" + pages[1];
+        } else if(!event.target.checked) {
+            event.preventDefault();
+        }
     }
 });
 
@@ -64,6 +72,7 @@ dialog2Close.addEventListener("click", (event) => {
     dialog2.close();
 });
 
+
 // replace alerts
 addBookButton.addEventListener("click", (event) => {
     title = titleField.value;
@@ -71,12 +80,14 @@ addBookButton.addEventListener("click", (event) => {
     totalPages = totalPagesField.value;
     pagesRead = pagesReadField.value;
 
-    if(pagesRead === totalPages) {
-        editHasReadCheck.checked = true;
+    if(parseFloat(pagesRead) === parseFloat(totalPages)) {
+        hasReadCheck.checked = true;
     }
-    readStatus = editHasReadCheck.checked;
+    readStatus = hasReadCheck.checked;
 
-    if((title !== "" && author !== "" && pagesRead !== "" && totalPages !== "") && (pagesRead <= totalPages)) {
+    if((title !== "" && author !== "" && pagesRead !== "" && totalPages !== "") 
+        && (parseFloat(pagesRead) <= parseFloat(totalPages))) {
+
         let book = new Book(title, author, pagesRead, totalPages, readStatus);
         addBookToLibrary(book);
         dialog.close();
@@ -95,12 +106,13 @@ editBookButton.addEventListener("click", (event) => {
     totalPages = editTotalPagesField.value;
     pagesRead = editPagesReadField.value;
 
-    if(pagesRead === totalPages) {
+    if(parseFloat(pagesRead) === parseFloat(totalPages)) {
         editHasReadCheck.checked = true;
     }
     readStatus = editHasReadCheck.checked;
 
-    if((title !== "" && author !== "" && pagesRead !== "" && totalPages !== "") && (pagesRead <= totalPages)) {
+    if((title !== "" && author !== "" && pagesRead !== "" && totalPages !== "") 
+        && (parseFloat(pagesRead) <= parseFloat(totalPages))) {
         myLibrary[bookToEdit].title = title;
         myLibrary[bookToEdit].author = author;
         myLibrary[bookToEdit].totalPages = totalPages;
@@ -166,7 +178,6 @@ editPagesReadField.addEventListener("keyup", (event) => {
     }
 });
 
-
 totalPagesField.addEventListener("keydown", (event) => {
     totalPagesField.value = totalPagesField.value.replace(" ", "");
     if ((event.key >= 0 && event.key <= 9) || event.key === "Backspace") {
@@ -217,6 +228,7 @@ editHasReadCheck.addEventListener("change", (event) => {
 
 class Book {
     constructor(title, author, pagesRead, totalPages, hasRead) {
+        this.id = `${bookIDCounter++}`;
         this.title = title;
         this.author = author;
         this.pagesRead = pagesRead;
@@ -227,31 +239,36 @@ class Book {
 
 function addBookToLibrary(Book) {
     myLibrary.push(Book);
+
 }
 
 function removeBookFromLibrary(event) {
-    myLibrary.splice(event.target.closest("div").id, 1);
-    document.getElementById(event.target.closest("div").id).remove();
+    const booktoDelete = event.target.closest("div").id;
+    myLibrary = myLibrary.filter(book => book.id !== booktoDelete);
+    document.getElementById(booktoDelete).remove();
+
+    if(myLibrary.length === 0) {
+        bookIDCounter = 0;
+    }
 }
 
 function displayBooks() {
-
     const booksContainer = document.querySelector(".books")
     const bookTemplate = document.getElementById("book-template");
 
     const bookItems = booksContainer.querySelectorAll(".book");
     bookItems.forEach(item => item.remove());
     
-    myLibrary.forEach((book, index) => {
+    myLibrary.forEach((book) => {
         const bookElement = bookTemplate.content.cloneNode(true);
 
         bookElement.querySelector(".book-title").textContent = book.title;
         bookElement.querySelector(".book-author").textContent = book.author;
         bookElement.querySelector(".book-pages").textContent = book.pagesRead + "/" + book.totalPages;
         bookElement.querySelector(".read-status").checked = book.hasRead;
-
+        
         const bookDiv = bookElement.querySelector(".book");
-        bookDiv.id = `${index}`;
+        bookDiv.id = book.id;
 
         booksContainer.appendChild(bookElement);
     });
