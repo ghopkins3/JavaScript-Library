@@ -21,7 +21,20 @@ const editTotalPagesField = document.getElementById("edit-total-pages-field");
 const editHasReadCheck = document.getElementById("edit-checkbox");
 let bookToEdit;
 let bookIDCounter = 0;
-let myLibrary = [];
+let myLibrary = JSON.parse(localStorage.getItem("library")) || [];
+
+if(myLibrary.length === 0) {
+    myLibrary.push({
+        title: "Harry Potter and the Prisoner of Azkaban",
+        author: "J.K. Rowling",
+        pagesRead: "435",
+        totalPages: "435",
+        hasRead: true,
+    });
+}
+
+loadLibraryFromStorage();
+displayBooks();
 
 document.addEventListener("click", (event) => {
     if(event.target.id === "delete") {
@@ -235,11 +248,17 @@ class Book {
 function addBookToLibrary(title, author, totalPages, pagesRead, readStatus) {
     let book = new Book(title, author, totalPages, pagesRead, readStatus);
     myLibrary.push(book);
+    localStorage.setItem("library", JSON.stringify(myLibrary));
+}
+
+function loadLibraryFromStorage() {
+    console.log(JSON.parse(localStorage.getItem("library")));
 }
 
 function removeBookFromLibrary(event) {
     const booktoDelete = event.target.closest("div").id;
     myLibrary = myLibrary.filter(book => book.id !== booktoDelete);
+    localStorage.setItem("library", JSON.stringify(myLibrary));
     document.getElementById(booktoDelete).remove();
 
     if(myLibrary.length === 0) {
