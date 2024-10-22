@@ -85,7 +85,6 @@ dialog2Close.addEventListener("click", (event) => {
     dialog2.close();
 });
 
-
 // replace alerts
 addBookButton.addEventListener("click", (event) => {
     title = titleField.value;

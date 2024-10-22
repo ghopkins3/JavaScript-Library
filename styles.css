@@ -60,6 +60,7 @@ body {
     -ms-user-select: none; 
     user-select: none; 
     border: 6px solid #535962;
+    height: 16rem;
 }
 
 .new-book-header {
@@ -89,6 +90,7 @@ body {
 
 .book {
     display: flex;
+    text-overflow: ellipsis;    
     flex-direction: column;
     background-color: #5a5f68;
     color: white;
@@ -97,6 +99,11 @@ body {
     -webkit-user-select: none;
     -ms-user-select: none; 
     user-select: none; 
+    height: 17rem;
+    min-height: 17rem;
+    max-height: 17rem;
+    width: 15rem;
+    max-width: 15rem;
 }
 
 #delete {
@@ -123,7 +130,7 @@ body {
     text-align: start;
     font-size: 1.25rem;
     font-weight: 600;
-    font-style: ;
+    font-style: italic;
     padding-left: 1rem;
     padding-right: 1rem;
     margin-top: 0.5rem;
@@ -226,6 +233,10 @@ input:checked + .slider:before {
 }
 
 dialog {
+    background-color: #40444b;
+    color: white;
+    border: 6px solid #535962;
+    border-radius: 1rem;
     width: 30rem;
     height: 25rem;
     margin: auto;
@@ -245,6 +256,7 @@ dialog {
 .dialog-header > img:hover {
     cursor: pointer;
     opacity: 50%;
+    transform: scale(1.1);
 }
 
 .dialog-header > h1 {
@@ -283,6 +295,11 @@ input[type="submit"] {
     width: 10rem;
     justify-content: center;
     align-self: center;
+}
+
+input[type="submit"]:hover {
+    transform: scale(1.1);
+    cursor: pointer;
 }
 
 dialog::backdrop {
