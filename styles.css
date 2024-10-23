@@ -124,6 +124,7 @@ body {
     font-weight: 600;
     padding-left: 1rem;
     padding-right: 1rem;
+    border: 2px solid rgb(196, 155, 131);/
 }
 
 .author {
@@ -134,6 +135,7 @@ body {
     padding-left: 1rem;
     padding-right: 1rem;
     margin-top: 0.5rem;
+    border: 2px solid yellow;
 }
 
 .pages {
@@ -141,6 +143,7 @@ body {
     font-size: 1.25rem;
     padding-left: 1rem;
     margin-top: 0.5rem;
+    border: 2px solid green;
 }
 
 .has-read {
@@ -151,19 +154,17 @@ body {
     font-size: 1.25rem;
     padding-left: 1rem;
     margin-top: 1rem;
+    border: 2px solid red;
 }
 
 .read-switch {
     display: flex;
-    margin-left: 5rem;
     gap: 2rem;
+    border: 2px solid blue;
 }
 
 .read-switch > img {
-    margin-top: 0.8rem;
     height: 2rem;
-    margin-bottom: 0.5rem;
-    margin-left: 0.75rem;
 }
 
 .read-switch > img:hover {
@@ -288,18 +289,24 @@ input {
 }
 
 input:focus {
+    caret-color: auto;
     outline: 1px solid blue;
 }
 
 input[type="submit"] {
     width: 10rem;
-    justify-content: center;
+    height: 2rem;
     align-self: center;
+    border-radius: 10px;
 }
 
 input[type="submit"]:hover {
     transform: scale(1.1);
     cursor: pointer;
+}
+
+input[type="submit"]:focus {
+    outline: none;
 }
 
 dialog::backdrop {

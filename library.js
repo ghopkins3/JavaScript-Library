@@ -23,17 +23,6 @@ let bookToEdit;
 let bookIDCounter = 0;
 let myLibrary = JSON.parse(localStorage.getItem("library")) || [];
 
-if(myLibrary.length === 0) {
-    myLibrary.push({
-        title: "Harry Potter and the Prisoner of Azkaban",
-        author: "J.K. Rowling",
-        pagesRead: "435",
-        totalPages: "435",
-        hasRead: true,
-    });
-}
-
-loadLibraryFromStorage();
 displayBooks();
 
 document.addEventListener("click", (event) => {
@@ -71,6 +60,12 @@ dialogOpen.addEventListener("click", (event) => {
     authorField.value = "";
     pagesReadField.value = "";
     totalPagesField.value = "";
+
+    titleField.style.outline = "";
+    authorField.style.outline = "";
+    pagesReadField.style.outline = "";
+    totalPagesField.style.outline = "";
+
     if(hasReadCheck.checked) {
         hasReadCheck.checked = !hasReadCheck.checked;
     }
@@ -87,6 +82,7 @@ dialog2Close.addEventListener("click", (event) => {
 
 // replace alerts
 addBookButton.addEventListener("click", (event) => {
+
     title = titleField.value;
     author = authorField.value;
     totalPages = totalPagesField.value;
@@ -97,7 +93,9 @@ addBookButton.addEventListener("click", (event) => {
     }
     readStatus = hasReadCheck.checked;
 
-    if((title !== "" && author !== "" && pagesRead !== "" && totalPages !== "") 
+
+    if(((title !== "" && title.length <= 40) && (author !== "" && author.length <= 40) 
+        && pagesRead !== "" && totalPages !== "") 
         && (parseFloat(pagesRead) <= parseFloat(totalPages))) {
 
         addBookToLibrary(title, author, totalPages, pagesRead, readStatus);
@@ -135,6 +133,39 @@ editBookButton.addEventListener("click", (event) => {
     displayBooks();
 });
 
+titleField.addEventListener("keyup", (event) => {
+    if(titleField.value !== "" && titleField.value.length <= 40) {
+        event.target.style.outline = "2px solid green";
+    } else {
+        event.target.style.outline = "2px solid red";
+    }
+});
+
+editTitleField.addEventListener("keyup", (event) => {
+    if(editTitleField.value !== "" && editTitleField.value.length <= 40) {
+        event.target.style.outline = "2px solid green";
+    } else {
+        event.target.style.outline = "2px solid red";
+    }
+});
+
+authorField.addEventListener("keyup", (event) => {
+    if(authorField.value !== "" && authorField.value.length <= 40) {
+        event.target.style.outline = "2px solid green";
+    } else {
+        event.target.style.outline = "2px solid red";
+    }
+});
+
+editAuthorField.addEventListener("keyup", (event) => {
+    if(editAuthorField.value !== "" && editAuthorField.value.length <= 40) {
+        event.target.style.outline = "2px solid green";
+    } else {
+        event.target.style.outline = "2px solid red";
+    }
+});
+
+
 pagesReadField.addEventListener("keydown", (event) => {
     pagesReadField.value = pagesReadField.value.replace(" ", "");
     if ((event.key >= 0 && event.key <= 9) || event.key === "Backspace") {
@@ -150,14 +181,18 @@ pagesReadField.addEventListener("keydown", (event) => {
 pagesReadField.addEventListener("keyup", (event) => {
     if(parseFloat(pagesReadField.value) === parseFloat(totalPagesField.value)) {
         hasReadCheck.checked = true;
+        event.target.style.outline = "2px solid green";
     } else if(parseFloat(pagesReadField.value) > parseFloat(totalPagesField.value)) {
         // popup message
         hasReadCheck.checked = false;
+        event.target.style.outline = "2px solid red";
     } else if(parseFloat(pagesReadField.value) < parseFloat(totalPagesField.value)) {
         hasReadCheck.checked = false;
+        event.target.style.outline = "2px solid green";
     } else if(pagesReadField.value === "") {
         hasReadCheck.checked = false;
-    }
+        event.target.style.outline = "2px solid red";
+    } 
 });
 
 editPagesReadField.addEventListener("keydown", (event) => {
@@ -175,13 +210,17 @@ editPagesReadField.addEventListener("keydown", (event) => {
 editPagesReadField.addEventListener("keyup", (event) => {
     if(parseFloat(editPagesReadField.value) === parseFloat(editTotalPagesField.value)) {
         editHasReadCheck.checked = true;
+        event.target.style.outline = "2px solid green";
     } else if(parseFloat(editPagesReadField.value) > parseFloat(editTotalPagesField.value)) {
         // popup message
         editHasReadCheck.checked = false;
+        event.target.style.outline = "2px solid red";
     } else if(parseFloat(editPagesReadField.value) < parseFloat(editTotalPagesField.value)) {
         editHasReadCheck.checked = false;
+        event.target.style.outline = "2px solid green";
     } else if(editPagesReadField.value === "") {
         editHasReadCheck.checked = false;
+        event.target.style.outline = "2px solid red";
     }
 });
 
@@ -197,6 +236,20 @@ totalPagesField.addEventListener("keydown", (event) => {
     }
 });
 
+totalPagesField.addEventListener("keyup", (event) => {
+    if(totalPagesField.value !== "") {
+        event.target.style.outline = "2px solid green";
+    } else {
+        event.target.style.outline = "2px solid red";        
+    }
+
+    if(parseFloat(totalPagesField.value) === parseFloat(pagesReadField.value)) {
+        hasReadCheck.checked = true;
+    } else {
+        hasReadCheck.checked = false;
+    }
+});
+
 editTotalPagesField.addEventListener("keydown", (event) => {
     editTotalPagesField.value = editTotalPagesField.value.replace(" ", "");
     if ((event.key >= 0 && event.key <= 9) || event.key === "Backspace") {
@@ -207,6 +260,22 @@ editTotalPagesField.addEventListener("keydown", (event) => {
     } else {
         event.preventDefault();
     }
+});
+
+editTotalPagesField.addEventListener("keyup", (event) => {
+    if(editTotalPagesField.value !== "") {
+        event.target.style.outline = "2px solid green";
+    } else {
+        event.target.style.outline = "2px solid red";        
+    }
+
+    if(parseFloat(editTotalPagesField.value) === parseFloat(editPagesReadField.value)) {
+        editHasReadCheck.checked = true;
+    } else {
+        editHasReadCheck.checked = false;
+    }
+
+    // total pages greater than pagesread
 });
 
 hasReadCheck.addEventListener("change", (event) => {
@@ -271,6 +340,7 @@ function editBook(title, author, totalPages, pagesRead, readStatus) {
     myLibrary[bookToEdit].totalPages = totalPages;
     myLibrary[bookToEdit].pagesRead = pagesRead;
     myLibrary[bookToEdit].hasRead = readStatus
+    localStorage.setItem("library", JSON.stringify(myLibrary));
 }
 
 function displayBooks() {
