@@ -7,7 +7,8 @@
 #header {
     display: flex;
     flex-direction: row;
-    background-color: lightblue;
+    background-color: #202225;
+    color: white;
     height: 6rem;
     max-height: 6rem;
     min-height: 6rem;
@@ -22,7 +23,7 @@
 
 #heading {
     font-size: 2.5em;
-    padding-top: 1.5rem;
+    padding-top: 0.5rem;
 }
 
 #subheading {
@@ -31,11 +32,8 @@
 }
 
 body {
-    background: rgb(120,120,133);
-    background: -moz-linear-gradient(90deg, rgba(120,120,133,1) 0%, rgba(31,29,29,1) 77%);
-    background: -webkit-linear-gradient(90deg, rgba(120,120,133,1) 0%, rgba(31,29,29,1) 77%);
-    background: linear-gradient(90deg, rgba(120,120,133,1) 0%, rgba(31,29,29,1) 77%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#787885",endColorstr="#1f1d1d",GradientType=1); 
+    font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: #292b2f;
 }
 
 .books {
@@ -51,21 +49,24 @@ body {
     gap: 2rem;
 }
 
-/* TODO add shadow */
 .new-book {
     display: flex;
     flex-direction: column;
-    background-color: #280137;
+    background-color: #40444b;
     text-align: center;
     transition: 0.25s ease-out;
     border-radius: 1rem;
     -webkit-user-select: none;
     -ms-user-select: none; 
     user-select: none; 
+    border: 6px solid #535962;
+    height: 16rem;
 }
 
 .new-book-header {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    color: white;
 }
 
 .plus > img {
@@ -78,6 +79,7 @@ body {
     transform: scale(1.1);
     transition: 0.25s ease-in;
     opacity: 90%;
+    box-shadow: 0px 0px 5px 2px;
     cursor:pointer;
 }
 
@@ -88,13 +90,20 @@ body {
 
 .book {
     display: flex;
+    text-overflow: ellipsis;    
     flex-direction: column;
-    background-color: grey;
+    background-color: #5a5f68;
+    color: white;
     transition: 0.25s ease-out;
     border-radius: 1rem;
     -webkit-user-select: none;
     -ms-user-select: none; 
     user-select: none; 
+    height: 17rem;
+    min-height: 17rem;
+    max-height: 17rem;
+    width: 15rem;
+    max-width: 15rem;
 }
 
 #delete {
@@ -106,26 +115,33 @@ body {
 #delete:hover {
     opacity: 50%;
     cursor: pointer;
+    transform: scale(1.1);
 }
 
 .title {
     text-align: start;
     font-size: 1.25rem;
+    font-weight: 600;
     padding-left: 1rem;
+    padding-right: 1rem;
+    height: 3.25rem;
+    overflow-wrap: break-word;
 }
 
 .author {
     text-align: start;
     font-size: 1.25rem;
+    font-style: italic;
     padding-left: 1rem;
-    margin-top: 0.5rem;
+    padding-right: 1rem;
+    height: 3.2rem;
 }
 
 .pages {
     text-align: start;
     font-size: 1.25rem;
     padding-left: 1rem;
-    margin-top: 0.5rem;
+    height: 3.2rem;
 }
 
 .has-read {
@@ -135,25 +151,22 @@ body {
     text-align: center;
     font-size: 1.25rem;
     padding-left: 1rem;
-    margin-top: 1rem;
 }
 
 .read-switch {
     display: flex;
-    margin-left: 5rem;
-    gap: 2rem;
+    padding-left: 4.5rem;
+    gap: 3rem;
 }
 
 .read-switch > img {
-    margin-top: 0.8rem;
     height: 2rem;
-    margin-bottom: 0.5rem;
-    margin-left: 0.75rem;
 }
 
 .read-switch > img:hover {
     opacity: 50%;
     cursor: pointer;
+    transform: scale(1.1);
 }
 
 .switch {
@@ -217,6 +230,10 @@ input:checked + .slider:before {
 }
 
 dialog {
+    background-color: #40444b;
+    color: white;
+    border: 6px solid #535962;
+    border-radius: 1rem;
     width: 30rem;
     height: 25rem;
     margin: auto;
@@ -225,7 +242,7 @@ dialog {
 .dialog-header {
     display: flex;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     gap: 2rem;
 }
 
@@ -236,6 +253,7 @@ dialog {
 .dialog-header > img:hover {
     cursor: pointer;
     opacity: 50%;
+    transform: scale(1.1);
 }
 
 .dialog-header > h1 {
@@ -267,13 +285,24 @@ input {
 }
 
 input:focus {
+    caret-color: auto;
     outline: 1px solid blue;
 }
 
 input[type="submit"] {
     width: 10rem;
-    justify-content: center;
+    height: 2rem;
     align-self: center;
+    border-radius: 10px;
+}
+
+input[type="submit"]:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+input[type="submit"]:focus {
+    outline: none;
 }
 
 dialog::backdrop {
