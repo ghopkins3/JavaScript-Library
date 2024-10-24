@@ -124,26 +124,24 @@ body {
     font-weight: 600;
     padding-left: 1rem;
     padding-right: 1rem;
-    border: 2px solid rgb(196, 155, 131);/
+    height: 3.25rem;
+    overflow-wrap: break-word;
 }
 
 .author {
     text-align: start;
     font-size: 1.25rem;
-    font-weight: 600;
     font-style: italic;
     padding-left: 1rem;
     padding-right: 1rem;
-    margin-top: 0.5rem;
-    border: 2px solid yellow;
+    height: 3.2rem;
 }
 
 .pages {
     text-align: start;
     font-size: 1.25rem;
     padding-left: 1rem;
-    margin-top: 0.5rem;
-    border: 2px solid green;
+    height: 3.2rem;
 }
 
 .has-read {
@@ -153,14 +151,12 @@ body {
     text-align: center;
     font-size: 1.25rem;
     padding-left: 1rem;
-    margin-top: 1rem;
-    border: 2px solid red;
 }
 
 .read-switch {
     display: flex;
-    gap: 2rem;
-    border: 2px solid blue;
+    padding-left: 4.5rem;
+    gap: 3rem;
 }
 
 .read-switch > img {
