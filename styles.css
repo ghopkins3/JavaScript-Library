@@ -104,6 +104,8 @@ body {
     max-height: 17rem;
     width: 15rem;
     max-width: 15rem;
+    word-wrap: break-word;
+    overflow-wrap: break;
 }
 
 #delete {
@@ -124,8 +126,9 @@ body {
     font-weight: 600;
     padding-left: 1rem;
     padding-right: 1rem;
-    height: 3.25rem;
-    overflow-wrap: break-word;
+    height: 3.4rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .author {
@@ -135,6 +138,8 @@ body {
     padding-left: 1rem;
     padding-right: 1rem;
     height: 3.2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .pages {
@@ -142,6 +147,8 @@ body {
     font-size: 1.25rem;
     padding-left: 1rem;
     height: 3.2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .has-read {
@@ -235,8 +242,9 @@ dialog {
     border: 6px solid #535962;
     border-radius: 1rem;
     width: 30rem;
-    height: 25rem;
+    height: 30rem;
     margin: auto;
+    box-shadow: 0px 0px 5px 2px black;
 }
 
 .dialog-header {
@@ -264,16 +272,15 @@ dialog {
 .info-input {
     display: flex;
     flex-direction: column;
-    margin-top: 1.5rem;
     margin-left: 1rem;
     margin-right: 1rem;
-    gap: 1rem;
 }
 
 .dialog-read-status {
     display: flex;
     justify-content: center;
     gap: 1rem;
+    margin-top: 0.5rem;
 }
 
 .dialog-read-status > p {
@@ -289,16 +296,30 @@ input:focus {
     outline: 1px solid blue;
 }
 
+input[type="text"] {
+   margin-top: 0.5rem;
+   margin-bottom: 0.5rem;
+}
+
+.error {
+    font-size: 1.1rem;
+    height: 1.4rem;
+    color: red;
+}
+
 input[type="submit"] {
     width: 10rem;
-    height: 2rem;
+    height: 2.5rem;
     align-self: center;
-    border-radius: 10px;
+    border-radius: 1rem;
+    border: none;
+    margin-top: 1rem;
 }
 
 input[type="submit"]:hover {
     transform: scale(1.1);
     cursor: pointer;
+    box-shadow: 0px 0px 5px 1px black;
 }
 
 input[type="submit"]:focus {
