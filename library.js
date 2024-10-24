@@ -1,7 +1,5 @@
 
 // TODO ADD FAVORITES
-
-// TODO ADD ERROR WARNINGS TO DIALOGS
 const dialogOpen = document.querySelector(".new-book");
 const dialog = document.querySelector(".add-book-dialog");
 const dialog2 = document.querySelector(".edit-book-dialog");
