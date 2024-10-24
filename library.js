@@ -1,7 +1,5 @@
 
 // TODO ADD FAVORITES
-
-// TODO ADD ERROR WARNINGS TO DIALOGS
 const dialogOpen = document.querySelector(".new-book");
 const dialog = document.querySelector(".add-book-dialog");
 const dialog2 = document.querySelector(".edit-book-dialog");
@@ -22,14 +20,8 @@ const editPagesReadField = document.getElementById("edit-pages-read-field");
 const editTotalPagesField = document.getElementById("edit-total-pages-field");
 const editHasReadCheck = document.getElementById("edit-checkbox");
 let bookToEdit;
-let myLibrary = JSON.parse(localStorage.getItem("library")) || [];
-
-if(myLibrary.length === 0) {
-    localStorage.setItem("lastID", 0);
-}
-
-let bookIDCounter = localStorage.getItem("lastID") || 0;
-displayBooks();
+let bookIDCounter = 0;
+let myLibrary = [];
 
 document.addEventListener("click", (event) => {
     if(event.target.id === "delete") {
@@ -55,7 +47,6 @@ document.addEventListener("click", (event) => {
             bookToEdit = event.target.closest(".book").id;
             let pages = event.target.closest(".book").querySelector(".book-pages").textContent.split("/");
             event.target.closest(".book").querySelector(".book-pages").textContent = pages[1] + "/" + pages[1];
-            editBook(title, author, totalPages, totalPages, true);
         } else if(!event.target.checked) {
             event.preventDefault();
         }
@@ -67,12 +58,6 @@ dialogOpen.addEventListener("click", (event) => {
     authorField.value = "";
     pagesReadField.value = "";
     totalPagesField.value = "";
-
-    titleField.style.outline = "";
-    authorField.style.outline = "";
-    pagesReadField.style.outline = "";
-    totalPagesField.style.outline = "";
-
     if(hasReadCheck.checked) {
         hasReadCheck.checked = !hasReadCheck.checked;
     }
@@ -87,9 +72,9 @@ dialog2Close.addEventListener("click", (event) => {
     dialog2.close();
 });
 
+
 // replace alerts
 addBookButton.addEventListener("click", (event) => {
-
     title = titleField.value;
     author = authorField.value;
     totalPages = totalPagesField.value;
@@ -100,12 +85,11 @@ addBookButton.addEventListener("click", (event) => {
     }
     readStatus = hasReadCheck.checked;
 
-
-    if(((title !== "" && title.replace(/ /g, "").length <= 35) && (author !== "" && author.replace(/ /g, "").length <= 35) 
-        && pagesRead !== "" && totalPages !== "" && totalPages !== "0") 
+    if((title !== "" && author !== "" && pagesRead !== "" && totalPages !== "") 
         && (parseFloat(pagesRead) <= parseFloat(totalPages))) {
 
-        addBookToLibrary(title, author, totalPages, pagesRead, readStatus);
+        let book = new Book(title, author, pagesRead, totalPages, readStatus);
+        addBookToLibrary(book);
         dialog.close();
     } else if(parseFloat(pagesRead) > parseFloat(totalPages)) {
         alert("pages read cannot be more than total pages");
@@ -127,10 +111,13 @@ editBookButton.addEventListener("click", (event) => {
     }
     readStatus = editHasReadCheck.checked;
 
-    if(((title !== "" && title.replace(/ /g, "").length <= 35) && (author !== "" && author.replace(/ /g, "").length <= 35) 
-        && pagesRead !== "" && totalPages !== "" && totalPages !== "0") 
+    if((title !== "" && author !== "" && pagesRead !== "" && totalPages !== "") 
         && (parseFloat(pagesRead) <= parseFloat(totalPages))) {
-        editBook(title, author, totalPages, pagesRead, readStatus);
+        myLibrary[bookToEdit].title = title;
+        myLibrary[bookToEdit].author = author;
+        myLibrary[bookToEdit].totalPages = totalPages;
+        myLibrary[bookToEdit].pagesRead = pagesRead;
+        myLibrary[bookToEdit].hasRead = readStatus
         dialog2.close();
     } else if(parseFloat(pagesRead) > parseFloat(totalPages)) {
         alert("pages read cannot be more than total pages");
@@ -139,38 +126,6 @@ editBookButton.addEventListener("click", (event) => {
     }
 
     displayBooks();
-});
-
-titleField.addEventListener("keyup", (event) => {
-    if(titleField.value !== "" && titleField.value.replace(/ /g, "").length <= 35) {
-        event.target.style.outline = "2px solid green";
-    } else {
-        event.target.style.outline = "2px solid red";
-    }
-});
-
-editTitleField.addEventListener("keyup", (event) => {
-    if(editTitleField.value !== "" && editTitleField.value.replace(/ /g, "").length <= 35) {
-        event.target.style.outline = "2px solid green";
-    } else {
-        event.target.style.outline = "2px solid red";
-    }
-});
-
-authorField.addEventListener("keyup", (event) => {
-    if(authorField.value !== "" && authorField.value.replace(/ /g, "").length <= 35) {
-        event.target.style.outline = "2px solid green";
-    } else {
-        event.target.style.outline = "2px solid red";
-    }
-});
-
-editAuthorField.addEventListener("keyup", (event) => {
-    if(editAuthorField.value !== "" && editAuthorField.value.replace(/ /g, "").length <= 35) {
-        event.target.style.outline = "2px solid green";
-    } else {
-        event.target.style.outline = "2px solid red";
-    }
 });
 
 pagesReadField.addEventListener("keydown", (event) => {
@@ -188,18 +143,14 @@ pagesReadField.addEventListener("keydown", (event) => {
 pagesReadField.addEventListener("keyup", (event) => {
     if(parseFloat(pagesReadField.value) === parseFloat(totalPagesField.value)) {
         hasReadCheck.checked = true;
-        event.target.style.outline = "2px solid green";
     } else if(parseFloat(pagesReadField.value) > parseFloat(totalPagesField.value)) {
         // popup message
         hasReadCheck.checked = false;
-        event.target.style.outline = "2px solid red";
     } else if(parseFloat(pagesReadField.value) < parseFloat(totalPagesField.value)) {
         hasReadCheck.checked = false;
-        event.target.style.outline = "2px solid green";
     } else if(pagesReadField.value === "") {
         hasReadCheck.checked = false;
-        event.target.style.outline = "2px solid red";
-    } 
+    }
 });
 
 editPagesReadField.addEventListener("keydown", (event) => {
@@ -217,69 +168,37 @@ editPagesReadField.addEventListener("keydown", (event) => {
 editPagesReadField.addEventListener("keyup", (event) => {
     if(parseFloat(editPagesReadField.value) === parseFloat(editTotalPagesField.value)) {
         editHasReadCheck.checked = true;
-        event.target.style.outline = "2px solid green";
     } else if(parseFloat(editPagesReadField.value) > parseFloat(editTotalPagesField.value)) {
         // popup message
         editHasReadCheck.checked = false;
-        event.target.style.outline = "2px solid red";
     } else if(parseFloat(editPagesReadField.value) < parseFloat(editTotalPagesField.value)) {
         editHasReadCheck.checked = false;
-        event.target.style.outline = "2px solid green";
     } else if(editPagesReadField.value === "") {
         editHasReadCheck.checked = false;
-        event.target.style.outline = "2px solid red";
     }
 });
 
 totalPagesField.addEventListener("keydown", (event) => {
     totalPagesField.value = totalPagesField.value.replace(" ", "");
-    if ((event.key >= 0 && event.key <= 9) || event.key === "Backspace" || event.key === "Tab") {
-        if(totalPagesField.value.length >= 5 && event.key !== "Backspace" && event.key !== "Tab") { 
+    if ((event.key >= 0 && event.key <= 9) || event.key === "Backspace") {
+        if(totalPagesField.value.length >= 5 && event.key !== "Backspace") { 
             event.preventDefault();
         }
         return;
     } else {
         event.preventDefault();
-    }
-});
-
-totalPagesField.addEventListener("keyup", (event) => {
-    if(totalPagesField.value !== "" && totalPagesField.value !== "0") {
-        event.target.style.outline = "2px solid green";
-    } else {
-        event.target.style.outline = "2px solid red";        
-    }
-
-    if(parseFloat(totalPagesField.value) === parseFloat(pagesReadField.value)) {
-        hasReadCheck.checked = true;
-    } else {
-        hasReadCheck.checked = false;
     }
 });
 
 editTotalPagesField.addEventListener("keydown", (event) => {
     editTotalPagesField.value = editTotalPagesField.value.replace(" ", "");
-    if ((event.key >= 0 && event.key <= 9) || event.key === "Backspace" || event.key === "Tab") {
-        if(editTotalPagesField.value.length >= 5 && event.key !== "Backspace" && event.key !== "Tab") { 
+    if ((event.key >= 0 && event.key <= 9) || event.key === "Backspace") {
+        if(editTotalPagesField.value.length >= 5 && event.key !== "Backspace") { 
             event.preventDefault();
         }
         return;
     } else {
         event.preventDefault();
-    }
-});
-
-editTotalPagesField.addEventListener("keyup", (event) => {
-    if(editTotalPagesField.value !== "") {
-        event.target.style.outline = "2px solid green";
-    } else {
-        event.target.style.outline = "2px solid red";        
-    }
-
-    if(parseFloat(editTotalPagesField.value) === parseFloat(editPagesReadField.value)) {
-        editHasReadCheck.checked = true;
-    } else {
-        editHasReadCheck.checked = false;
     }
 });
 
@@ -308,7 +227,7 @@ editHasReadCheck.addEventListener("change", (event) => {
 });
 
 class Book {
-    constructor(title, author, totalPages, pagesRead, hasRead) {
+    constructor(title, author, pagesRead, totalPages, hasRead) {
         this.id = `${bookIDCounter++}`;
         this.title = title;
         this.author = author;
@@ -318,37 +237,19 @@ class Book {
     }
 }
 
-function addBookToLibrary(title, author, totalPages, pagesRead, readStatus) {
-    let book = new Book(title, author, totalPages, pagesRead, readStatus);
-    myLibrary.push(book);
-    localStorage.setItem("library", JSON.stringify(myLibrary));
-    localStorage.setItem("lastID", bookIDCounter);
+function addBookToLibrary(Book) {
+    myLibrary.push(Book);
+
 }
 
 function removeBookFromLibrary(event) {
     const booktoDelete = event.target.closest("div").id;
     myLibrary = myLibrary.filter(book => book.id !== booktoDelete);
-    localStorage.setItem("library", JSON.stringify(myLibrary));
     document.getElementById(booktoDelete).remove();
 
     if(myLibrary.length === 0) {
         bookIDCounter = 0;
-        localStorage.setItem("lastID", bookIDCounter);
     }
-}
-
-function editBook(title, author, totalPages, pagesRead, readStatus) {
-    myLibrary.forEach(book => {
-        if(book.id === bookToEdit) {
-            book.title = title;
-            book.author = author;
-            book.totalPages = totalPages;
-            book.pagesRead = pagesRead;
-            book.hasRead = readStatus;
-        }
-    })
-
-    localStorage.setItem("library", JSON.stringify(myLibrary));
 }
 
 function displayBooks() {
