@@ -7,7 +7,8 @@
 #header {
     display: flex;
     flex-direction: row;
-    background-color: lightblue;
+    background-color: #202225;
+    color: white;
     height: 6rem;
     max-height: 6rem;
     min-height: 6rem;
@@ -22,7 +23,7 @@
 
 #heading {
     font-size: 2.5em;
-    padding-top: 1.5rem;
+    padding-top: 0.5rem;
 }
 
 #subheading {
@@ -31,11 +32,8 @@
 }
 
 body {
-    background: rgb(120,120,133);
-    background: -moz-linear-gradient(90deg, rgba(120,120,133,1) 0%, rgba(31,29,29,1) 77%);
-    background: -webkit-linear-gradient(90deg, rgba(120,120,133,1) 0%, rgba(31,29,29,1) 77%);
-    background: linear-gradient(90deg, rgba(120,120,133,1) 0%, rgba(31,29,29,1) 77%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#787885",endColorstr="#1f1d1d",GradientType=1); 
+    font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: #292b2f;
 }
 
 .books {
@@ -51,21 +49,24 @@ body {
     gap: 2rem;
 }
 
-/* TODO add shadow */
 .new-book {
     display: flex;
     flex-direction: column;
-    background-color: #280137;
+    background-color: #40444b;
     text-align: center;
     transition: 0.25s ease-out;
     border-radius: 1rem;
     -webkit-user-select: none;
     -ms-user-select: none; 
     user-select: none; 
+    border: 6px solid #535962;
+    height: 16rem;
 }
 
 .new-book-header {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    color: white;
 }
 
 .plus > img {
@@ -78,6 +79,7 @@ body {
     transform: scale(1.1);
     transition: 0.25s ease-in;
     opacity: 90%;
+    box-shadow: 0px 0px 5px 2px;
     cursor:pointer;
 }
 
@@ -88,13 +90,22 @@ body {
 
 .book {
     display: flex;
+    text-overflow: ellipsis;    
     flex-direction: column;
-    background-color: grey;
+    background-color: #5a5f68;
+    color: white;
     transition: 0.25s ease-out;
     border-radius: 1rem;
     -webkit-user-select: none;
     -ms-user-select: none; 
     user-select: none; 
+    height: 17rem;
+    min-height: 17rem;
+    max-height: 17rem;
+    width: 15rem;
+    max-width: 15rem;
+    word-wrap: break-word;
+    overflow-wrap: break;
 }
 
 #delete {
@@ -106,26 +117,38 @@ body {
 #delete:hover {
     opacity: 50%;
     cursor: pointer;
+    transform: scale(1.1);
 }
 
 .title {
     text-align: start;
     font-size: 1.25rem;
+    font-weight: 600;
     padding-left: 1rem;
+    padding-right: 1rem;
+    height: 3.4rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .author {
     text-align: start;
     font-size: 1.25rem;
+    font-style: italic;
     padding-left: 1rem;
-    margin-top: 0.5rem;
+    padding-right: 1rem;
+    height: 3.2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .pages {
     text-align: start;
     font-size: 1.25rem;
     padding-left: 1rem;
-    margin-top: 0.5rem;
+    height: 3.2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .has-read {
@@ -135,25 +158,22 @@ body {
     text-align: center;
     font-size: 1.25rem;
     padding-left: 1rem;
-    margin-top: 1rem;
 }
 
 .read-switch {
     display: flex;
-    margin-left: 5rem;
-    gap: 2rem;
+    padding-left: 4.5rem;
+    gap: 3rem;
 }
 
 .read-switch > img {
-    margin-top: 0.8rem;
     height: 2rem;
-    margin-bottom: 0.5rem;
-    margin-left: 0.75rem;
 }
 
 .read-switch > img:hover {
     opacity: 50%;
     cursor: pointer;
+    transform: scale(1.1);
 }
 
 .switch {
@@ -217,15 +237,20 @@ input:checked + .slider:before {
 }
 
 dialog {
+    background-color: #40444b;
+    color: white;
+    border: 6px solid #535962;
+    border-radius: 1rem;
     width: 30rem;
-    height: 25rem;
+    height: 30rem;
     margin: auto;
+    box-shadow: 0px 0px 5px 2px black;
 }
 
 .dialog-header {
     display: flex;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     gap: 2rem;
 }
 
@@ -236,6 +261,7 @@ dialog {
 .dialog-header > img:hover {
     cursor: pointer;
     opacity: 50%;
+    transform: scale(1.1);
 }
 
 .dialog-header > h1 {
@@ -246,16 +272,15 @@ dialog {
 .info-input {
     display: flex;
     flex-direction: column;
-    margin-top: 1.5rem;
     margin-left: 1rem;
     margin-right: 1rem;
-    gap: 1rem;
 }
 
 .dialog-read-status {
     display: flex;
     justify-content: center;
     gap: 1rem;
+    margin-top: 0.5rem;
 }
 
 .dialog-read-status > p {
@@ -267,16 +292,40 @@ input {
 }
 
 input:focus {
+    caret-color: auto;
     outline: 1px solid blue;
+}
+
+input[type="text"] {
+   margin-top: 0.5rem;
+   margin-bottom: 0.5rem;
+}
+
+.error {
+    font-size: 1.1rem;
+    height: 1.4rem;
+    color: red;
 }
 
 input[type="submit"] {
     width: 10rem;
-    justify-content: center;
+    height: 2.5rem;
     align-self: center;
+    border-radius: 1rem;
+    border: none;
+    margin-top: 1rem;
+}
+
+input[type="submit"]:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+    box-shadow: 0px 0px 5px 1px black;
+}
+
+input[type="submit"]:focus {
+    outline: none;
 }
 
 dialog::backdrop {
     backdrop-filter: blur(2px);
 }
-  
